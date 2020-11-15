@@ -1,6 +1,7 @@
 import { BaseComponent } from './base.component';
 import { Card, Data, Input } from '../core';
 import './slider.component.scss';
+import { CardComponent } from './card.component';
 
 const cardWidth = 316;
 const cardSpace = 26;
@@ -17,10 +18,18 @@ export class SliderComponent extends BaseComponent {
     super(SliderComponent.Selector);
   }
 
+  onInit() {
+    super.onInit();
+  }
+
   addListeners() {
     this.listen('left', 'click', this.onLeftClick);
     this.listen('right', 'click', this.onRightClick);
+
     this.getElement(CardSlider).style.maxWidth = `${this.getContainerWidth(this.numberOfCards, cardWidth, cardSpace)}px`;
+    this.getCards().forEach((aCard: Card, aIndex: number) => {
+      (this.getElement(`card${aIndex}`) as CardComponent).card = aCard;
+    });
   }
 
   onLeftClick = () => {
@@ -41,11 +50,15 @@ export class SliderComponent extends BaseComponent {
     theSlider.scrollTo({ top: 0, left: theScrollValue, behavior: 'smooth' });
   };
 
+  getCards(): Card[] {
+    return this.cards ?? [];
+  }
+
   render() {
     return `
       <div class="slider-container" ref="${CardSlider}">
         <div class="overflow" ref="${CardOverflow}">
-          ${ this.cards?.map(c => `<image-card></image-card>`).join('') }
+          ${ this.getCards().map((aCard, aIndex) => `<image-card ref="card${aIndex}"></image-card>`).join('') }
         </div>
       </div>
       <div class="actions">

@@ -5,6 +5,8 @@ $color-shadow: #1A20401A;
 
 .image-card {
   @include flex-column();
+  @include flex-grow();
+  height: 99%;
   width: 308px;
   max-width: 308px;
   box-shadow: 2px 2px 8px $color-shadow;
@@ -15,9 +17,14 @@ $color-shadow: #1A20401A;
     height: $gridHeight * 7;
   }
 
+  .noimg {
+    height: $gridHeight * 7;
+    background-color: $color-heading2;
+  }
+
   &-header {
     @include flex-row();
-    height: $gridHeight * 2;
+    min-height: $gridHeight * 2;
     margin: $gridHeight;
 
     img {

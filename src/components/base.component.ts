@@ -11,7 +11,7 @@ export abstract class BaseComponent extends HTMLElement {
     super();
 
     this.selector = aSelector;
-    this.elementContainer = this; // this.attachShadow({ mode: 'closed' });
+    this.elementContainer = this;
     this.domElement = document.createElement('div');
     this.domElement.classList.add(aSelector);
   }

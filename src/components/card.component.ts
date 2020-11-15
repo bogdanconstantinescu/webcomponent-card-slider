@@ -1,40 +1,41 @@
 import { BaseComponent } from './base.component';
 import './slider.component.scss';
+import { Card, Data } from '../core';
 
 export class CardComponent extends BaseComponent {
   static Selector = 'image-card';
+
+  @Data() card: Card;
 
   constructor() {
     super(CardComponent.Selector);
   }
 
   addListeners() {
-    this.listen('left', 'click', this.onLeftClick);
-    this.listen('right', 'click', this.onRightClick);
   }
 
-  onLeftClick = () => {
-    console.warn('click on the left');
-  };
+  hasImage(): boolean {
+    return !!this.card;
+  }
 
-  onRightClick = () => {
-    console.warn('click on the right');
-  };
+  getImageUrl(): string {
+    return `${this.card?.image_url}?i=${ Math.random() }` ?? undefined;
+  }
 
   render() {
     return `
-        <img src="https://picsum.photos/300/150/" />
-        <div class="image-card-header">
-            <img src="img/icon.png" />
-            <div>
-                <h1>We are Humans</h1>
-                <h2>What will you find here</h2>
-            </div>          
-        </div>
-        <div class="image-card-body">
-            <p>We act like humans, we talk like humans, and we think like humans. And we call out anyone who does the opposite.</p>
-            <a href="https://gohenry.com/uk">Learn More</a>
-        </div>
+      ${ this.hasImage() ? `<img src="${ this.getImageUrl() }" />` : '<div class="noimg"></div>' }
+      <div class="image-card-header">
+        <img src="img/icon.png" />
+          <div>
+            <h1>${ this.card?.title }</h1>
+            <h2>${ this.card?.subtitle }</h2>
+          </div>          
+      </div>
+      <div class="image-card-body">
+        <p>${ this.card?.text }</p>
+        <a href="https://gohenry.com/uk">Learn More</a>
+      </div>
     `;
   }
 }
