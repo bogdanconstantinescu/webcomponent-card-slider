@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
@@ -12,6 +13,19 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/,
+        include: path.resolve(__dirname, 'src'),
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.s[a|c]ss$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }],
+      },
+      {
+        test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
+        loader: 'file-loader',
+      },
     ],
   },
   resolve: {
@@ -20,14 +34,17 @@ module.exports = {
   context: path.resolve(__dirname),
   plugins: [
     new CleanWebpackPlugin(),
-    new CopyPlugin({
-      patterns: [
-        { from: 'src/index.html', to: 'index.html' },
-      ],
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
     }),
+    // new CopyPlugin({
+    //   patterns: [
+    //     { from: 'src/index.html', to: 'index.html' },
+    //   ],
+    // }),
   ],
   output: {
-    filename: '[name].js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   optimization: {

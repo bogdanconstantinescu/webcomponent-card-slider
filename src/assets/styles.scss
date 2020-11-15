@@ -1,0 +1,43 @@
+@import './../../node_modules/normalize.scss/normalize';
+
+@mixin flex {
+  display: flex;
+}
+
+@mixin flex-grow($grow: 1) {
+  @include flex();
+  flex-grow: $grow;
+}
+
+@mixin flex-column($reverse: 'normal') {
+  @include flex();
+
+  @if $reverse == 'reverse' {
+    flex-direction: column-reverse;
+  } @else {
+    flex-direction: column;
+  }
+}
+
+@mixin flex-row($reverse: 'normal') {
+  @include flex();
+
+  @if $reverse == 'reverse' {
+    flex-direction: row-reverse;
+  } @else {
+    flex-direction: row;
+  }
+}
+
+// layout
+html,
+body {
+  min-height: 100vh;
+  @include flex-column();
+}
+
+app-root {
+  @include flex-column();
+  @include flex-grow();
+  background-color: #f6f6f6;
+}

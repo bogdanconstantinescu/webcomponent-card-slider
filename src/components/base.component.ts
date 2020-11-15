@@ -1,8 +1,25 @@
 export abstract class BaseComponent extends HTMLElement {
-  abstract template: string;
+  static Selector: string;
+  protected elementContainer: ShadowRoot;
+  protected domElement: HTMLElement;
+
+  protected constructor(aSelector: string) {
+    super();
+
+    this.elementContainer = this.attachShadow({ mode: 'open' });
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add(aSelector);
+  }
 
   connectedCallback() {
-    console.warn('template', this.template);
-    this.innerHTML = this.template;
+    this.onInit();
   }
+
+  onInit() {
+    console.warn('render', this.render());
+    this.domElement.innerHTML = this.render();
+    this.elementContainer.appendChild(this.domElement);
+  }
+
+  abstract render(): string;
 }

@@ -1,23 +1,20 @@
 import './components';
-import { BaseComponent } from './components';
+import './assets/styles.scss';
 
-function component() {
-  const theElement = document.createElement('div');
-  theElement.innerHTML = 'Hello webpackss';
-  return theElement;
-}
+import { BaseComponent } from './components';
 
 (() => {
   class RootComponent extends BaseComponent {
-    template: `<div><card-slider></card-slider></div>`;
+    static Selector = 'app-root';
 
     constructor() {
-      super();
-      console.warn('root');
+      super(RootComponent.Selector);
+    }
+
+    render(): string {
+      return `<card-slider firstProperty="abcd"></card-slider>`;
     }
   }
 
-  customElements.define('app-root', RootComponent);
+  customElements.define(RootComponent.Selector, RootComponent);
 })();
-
-// document.body.appendChild(component());
