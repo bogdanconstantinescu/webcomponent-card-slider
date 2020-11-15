@@ -4,13 +4,16 @@ export function Input() {
       throw new Error('@Input() property names must not include "-".');
     }
 
-    const get = function(this: HTMLElement) {
+    const get = function (this: HTMLElement) {
       return this.getAttribute(aKey);
     };
 
     const set = function (this: any, aValue: any) {
       if (this.getAttribute(aKey) !== aValue) {
+        delete this[aKey];
         this.setAttribute(aKey, aValue);
+        this[aKey] = aValue;
+        this.detectChanges(this);
       }
     };
 

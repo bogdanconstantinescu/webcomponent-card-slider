@@ -1,0 +1,50 @@
+@mixin flex {
+  display: flex;
+}
+
+@mixin flex-grow($grow: 1) {
+  @include flex();
+  flex-grow: $grow;
+}
+
+@mixin flex-column($reverse: 'normal') {
+  @include flex();
+
+  @if $reverse == 'reverse' {
+    flex-direction: column-reverse;
+  } @else {
+    flex-direction: column;
+  }
+}
+
+@mixin flex-row($reverse: 'normal') {
+  @include flex();
+
+  @if $reverse == 'reverse' {
+    flex-direction: row-reverse;
+  } @else {
+    flex-direction: row;
+  }
+}
+
+@mixin flex-align-center() {
+  @include flex();
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin clickable() {
+  cursor: pointer;
+  outline: none;
+}
+
+@mixin font-arial($size: 14px) {
+  font-family: Arial, sans-serif;
+  font-size: $size;
+}
+
+@mixin font-arial-bold($size: 14px) {
+  @include font-arial($size);
+  font-weight: bold;
+}
+

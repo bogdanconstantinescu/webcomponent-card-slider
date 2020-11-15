@@ -1,23 +1,63 @@
 import { BaseComponent } from './base.component';
-import { Input } from '../core';
+import { Card, Data, Input } from '../core';
+import './slider.component.scss';
+
+const cardWidth = 316;
+const cardSpace = 26;
+const CardSlider = 'slider';
+const CardOverflow = 'overflow';
 
 export class SliderComponent extends BaseComponent {
   static Selector = 'card-slider';
-  @Input() firstProperty: string;
+
+  @Data() cards: Card[];
+  @Input() numberOfCards: number;
 
   constructor() {
     super(SliderComponent.Selector);
   }
 
-  onInit() {
-    super.onInit();
-    console.warn('my component is connected!');
-    console.warn('property', this.firstProperty);
-    this.firstProperty = 'testQQ';
-    // console.warn('property', this.getAttribute('first-property'));
+  addListeners() {
+    this.listen('left', 'click', this.onLeftClick);
+    this.listen('right', 'click', this.onRightClick);
+    this.getElement(CardSlider).style.maxWidth = `${this.getContainerWidth(this.numberOfCards, cardWidth, cardSpace)}px`;
   }
 
+  onLeftClick = () => {
+    const theSlider = this.getElement(CardOverflow);
+    let theScrollValue = theSlider.scrollLeft - this.getContainerWidth(this.numberOfCards, cardWidth, cardSpace);
+    if (theScrollValue < 0) {
+      theScrollValue = 0;
+    }
+    theSlider.scrollTo({ top: 0, left: theScrollValue, behavior: 'smooth' });
+  };
+
+  onRightClick = () => {
+    const theSlider = this.getElement(CardOverflow);
+    let theScrollValue = theSlider.scrollLeft + this.getContainerWidth(this.numberOfCards, cardWidth, cardSpace);
+    if (theScrollValue > theSlider.scrollWidth) {
+      theScrollValue = theSlider.scrollWidth;
+    }
+    theSlider.scrollTo({ top: 0, left: theScrollValue, behavior: 'smooth' });
+  };
+
   render() {
-    return `<div>slider component ${this.firstProperty}</div>`;
+    return `
+      <div class="slider-container" ref="${CardSlider}">
+        <div class="overflow" ref="${CardOverflow}">
+          ${ this.cards?.map(c => `<image-card></image-card>`).join('') }
+        </div>
+      </div>
+      <div class="actions">
+        <div>
+          <span class="material-icons caret" ref="left">keyboard_arrow_left</span>
+          <span class="material-icons caret" ref="right">keyboard_arrow_right</span>
+        </div>
+      </div>
+    `;
+  }
+
+  getContainerWidth(aNumberOfCards: number, aCardWidth: number, aCardSpace: number): number {
+    return aNumberOfCards * aCardWidth + (aNumberOfCards - 1) * aCardSpace;
   }
 }

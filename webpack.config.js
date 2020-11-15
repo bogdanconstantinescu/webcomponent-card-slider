@@ -15,12 +15,15 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, 'src'),
         use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.s[a|c]ss$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }],
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' }
+        ],
       },
       {
         test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
@@ -37,11 +40,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
-    // new CopyPlugin({
-    //   patterns: [
-    //     { from: 'src/index.html', to: 'index.html' },
-    //   ],
-    // }),
+    new CopyPlugin({
+      patterns: [
+        { from: 'src/img', to: 'img' },
+      ],
+    }),
   ],
   output: {
     filename: '[name].bundle.js',

@@ -10,7 +10,7 @@ module.exports = {
     compress: true,
     hot: true,
     host: process.env.HOST || 'localhost',
-    port: 3000,
+    port: 3001,
     // Public path is root of content base
     publicPath: '/',
   },

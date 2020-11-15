@@ -1,0 +1,68 @@
+@import "../assets/const";
+@import "../assets/mixins";
+
+$color-shadow: #1A20401A;
+
+.image-card {
+  @include flex-column();
+  width: 308px;
+  max-width: 308px;
+  box-shadow: 2px 2px 8px $color-shadow;
+  border: 1px solid $color-shadow;
+  border-radius: 3px;
+
+  img {
+    height: $gridHeight * 7;
+  }
+
+  &-header {
+    @include flex-row();
+    height: $gridHeight * 2;
+    margin: $gridHeight;
+
+    img {
+      height: $gridHeight * 2;
+      margin-right: $gridHeight;
+    }
+
+    div {
+      @include flex-column();
+
+      h1 {
+        @include font-arial-bold(23px);
+        color: $color-heading1;
+        margin: 0;
+      }
+
+      h2 {
+        color: $color-heading2;
+        @include font-arial-bold(12px);
+        text-transform: uppercase;
+        margin: 0;
+      }
+    }
+  }
+
+  &-body {
+    margin: 0 $gridHeight $gridHeight $gridHeight;
+    @include flex-column();
+
+    p {
+      @include font-arial(12px);
+      color: $color-text;
+      line-height: 1.583;
+      margin: 0;
+    }
+
+    a {
+      margin-top: $gridHeight;
+      @include font-arial-bold(16px);
+      color: $color-green;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
